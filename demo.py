@@ -38,16 +38,22 @@ with tf.variable_scope("Placeholders"):
     X = tf.placeholder(dtype = tf.float32, shape = [None, img_h, img_w, n_features])
     Y = tf.placeholder(dtype = tf.float32, shape = [None, n_labels])
 
-with tf.variable_scope("Networks"):
-    outputs = slim.conv2d(X, num_outputs = 8, kernel_size = [3, 3], stride = 1, activation_fn = tf.nn.relu, padding = 'VALID') 
-    outputs = slim.conv2d(outputs, num_outputs = 8, kernel_size = [3, 3], stride = 1, activation_fn = tf.nn.relu, padding = 'VALID')
-    outputs = slim.max_pool2d(outputs, [2, 2])
-    outputs = slim.conv2d(outputs, num_outputs = 16, kernel_size = [3, 3], stride = 1, activation_fn = tf.nn.relu, padding = 'VALID') 
-    outputs = slim.conv2d(outputs, num_outputs = 16, kernel_size = [3, 3], stride = 1, activation_fn = tf.nn.relu, padding = 'VALID')
-    outputs = slim.max_pool2d(outputs, [2, 2])
-    outputs = slim.flatten(outputs)
-    outputs = slim.fully_connected(outputs, 256, activation_fn = tf.nn.relu)
-    outputs = slim.fully_connected(outputs, 128, activation_fn = tf.nn.relu)
+with slim.arg_scope([slim.conv2d, slim.fully_connected],
+                        activation_fn = tf.nn.relu,
+                        normalizer_fn = slim.batch_norm,
+                        normalizer_params = {'is_training' : True, 'decay' : 0.95}):
+    with tf.variable_scope("Networks"):
+        outputs = slim.conv2d(X, num_outputs = 8, kernel_size = [3, 3], stride = 1, padding = 'VALID') 
+        outputs = slim.conv2d(outputs, num_outputs = 8, kernel_size = [3, 3], stride = 1, padding = 'VALID')
+        outputs = slim.max_pool2d(outputs, [2, 2])
+        outputs = slim.conv2d(outputs, num_outputs = 16, kernel_size = [3, 3], stride = 1, padding = 'VALID') 
+        outputs = slim.conv2d(outputs, num_outputs = 16, kernel_size = [3, 3], stride = 1, padding = 'VALID')
+        outputs = slim.max_pool2d(outputs, [2, 2])
+        outputs = slim.flatten(outputs)
+        outputs = slim.fully_connected(outputs, 256)
+        outputs = slim.fully_connected(outputs, 128)
+
+with tf.variable_scope("Predictions"):
     outputs = slim.fully_connected(outputs, 10, activation_fn = None)
     predictions = tf.nn.softmax(outputs)
 
@@ -57,8 +63,8 @@ with tf.variable_scope("Trainings"):
     correct_prediction  = tf.equal(tf.argmax(Y, 1), tf.argmax(predictions, 1))
     acc = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 
-TRAIN_EPOCHS = 10
-BATCH_SIZES = 16
+TRAIN_EPOCHS = 20
+BATCH_SIZES = 32
 TOTAL_BATCHES = int(n_examples / BATCH_SIZES + 0.5)
 DISPLAY_EPOCH = 1
 
