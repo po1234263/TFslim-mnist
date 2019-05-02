@@ -51,4 +51,5 @@ We have provided three pictures in `./image_set` for testing, you can just run t
 ```bashrc
 $ python test_for_input.py --TEST_IMG=image_set/img_1.jpg
 ```
+![image](./docs/fig/input_for_predict_image.jpg)
 ![image](./docs/fig/input_for_predict.png)
