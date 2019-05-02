@@ -1,6 +1,7 @@
 ## part 1. Introduction
 
-Implementation of a simple pipeline for training mnist in Tensorflow (TF-Slim).<br>
+Implementation of a simple pipeline for training mnist in Tensorflow (TF-Slim).
+<br>
 - [x] A simple neural network architecture.
 - [x] Basic working demo
 - [x] Training pipeline
@@ -38,11 +39,14 @@ I have provided a simple drawing program written using opencv-python, so if you 
 ```bashrc
 $ python draw_number.py
 ```
-When you execute this program, a canvas will pop up, then you can draw a number you like.<br>
+When you execute this program, a canvas will pop up, then you can draw a number you like.
+<br>
 ![image](./docs/fig/before_draw.png)
 ![image](./docs/fig/after_draw.png)
-<br>After you finish drawing the numbers, click the `q` key in the canvas window and the program will save your drawing to `./image_set`.
-At the same time, the program will predict the numbers you draw, and show the result in the terminal.<br>
+<br>
+After you finish drawing the numbers, click the `q` key in the canvas window and the program will save your drawing to `./image_set`.
+At the same time, the program will predict the numbers you draw, and show the result in the terminal.
+<br>
 ![image](./docs/fig/draw_for_predict.png)
 ## part 5. Input picture for testing
 If you don't want to draw your own pictures, you can directly input a image into our network for prediction.
@@ -52,4 +56,5 @@ We have provided three pictures in `./image_set` for testing, you can just run t
 $ python test_for_input.py --TEST_IMG=image_set/img_1.jpg
 ```
 ![image](./docs/fig/input_for_predict_image.jpg)
+<br>
 ![image](./docs/fig/input_for_predict.png)
