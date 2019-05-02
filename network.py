@@ -1,11 +1,14 @@
 import tensorflow as tf
 slim = tf.contrib.slim
 
-def get_placeholders(img_h, img_w, n_features, n_labels):
-    with tf.variable_scope("Placeholders"):
+def get_placeholder_X(img_h, img_w, n_features):
+    with tf.variable_scope("Placeholders_X"):
         X = tf.placeholder(dtype = tf.float32, shape = [None, img_h, img_w, n_features])
+    return X
+def get_placeholder_Y(n_labels):
+    with tf.variable_scope("Placeholders_Y"):
         Y = tf.placeholder(dtype = tf.float32, shape = [None, n_labels])
-    return X, Y
+    return Y
 
 def forward(X, is_training = True):
     with slim.arg_scope([slim.conv2d, slim.fully_connected],

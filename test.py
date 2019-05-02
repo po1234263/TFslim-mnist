@@ -26,7 +26,8 @@ y_test = common.convert_one_hot(y_test, n_classes)
 n_features = x_test.shape[-1]
 n_labels = y_test.shape[-1]
 
-X, Y = network.get_placeholders(img_h, img_w, n_features, n_labels)
+X = network.get_placeholder_X(img_h, img_w, n_features)
+Y = network.get_placeholder_Y(n_labels)
 outputs, predictions = network.forward(X, is_training = False)
 correct_prediction, acc = network.accuracy(predictions, Y)
 

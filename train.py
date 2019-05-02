@@ -6,7 +6,7 @@ import argparse
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--VAL_SIZE", help = "Validation set size", default = 5000)
-parser.add_argument("--TRAIN_EPOCHS", help="Total train epoch", default = 10)
+parser.add_argument("--TRAIN_EPOCHS", help="Total train epoch", default = 30)
 parser.add_argument("--BATCH_SIZES", help="Number of a batch", default = 32)
 parser.add_argument("--LEARNING_RATE", help="learning rate", default = 0.01)
 parser.add_argument("--DISPLAY_EPOCH", help="How often does it show training loss and validation accuracy", default = 1)
@@ -54,7 +54,8 @@ TOTAL_BATCHES = int(n_examples / BATCH_SIZES + 0.5)
 DISPLAY_EPOCH = args.DISPLAY_EPOCH
 
 
-X, Y = network.get_placeholders(img_h, img_w, n_features, n_labels)
+X = network.get_placeholder_X(img_h, img_w, n_features)
+Y = network.get_placeholder_Y(n_labels)
 outputs, predictions = network.forward(X, is_training = True)
 loss, train_op = network.train(LEARNING_RATE, outputs, Y)
 correct_prediction, acc = network.accuracy(predictions, Y)
